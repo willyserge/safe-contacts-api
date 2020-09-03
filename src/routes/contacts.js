@@ -4,7 +4,7 @@ import auth from '../middleware/auth';
 
 
 const contactsRouter = express.Router();
-contactsRouter.get('/posts', auth, Contacts.getAllContacts);
+contactsRouter.get('/', auth, Contacts.getAllContacts);
 
 
 export default contactsRouter;

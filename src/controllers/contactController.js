@@ -1,9 +1,12 @@
 import createError from 'http-errors';
+import Contact from '../models/contact';
+
 
 const Contacts = {
   async getAllContacts(req, res, next) {
     try {
-      res.send('all contacts');
+      const contacts = await Contact.find({ createdBy: req.user.id });
+      res.status(200).json({ contacts });
     } catch (error) {
       next(createError(500));
     }

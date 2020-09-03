@@ -4,6 +4,7 @@ import createError from 'http-errors';
 const Validate = {
   signup: (req, res, next) => {
     const schema = Joi.object({
+      username: Joi.string().min(1).max(150).required(),
       firstname: Joi.string().min(2).required(),
       lastname: Joi.string().min(2).required(),
       email: Joi.string().email().min(10).required(),
@@ -20,7 +21,7 @@ const Validate = {
 
   signin: (req, res, next) => {
     const schema = Joi.object({
-      email: Joi.string().email().min(10).required(),
+      email: Joi.string().email().required(),
       password: Joi.required()
 
     });

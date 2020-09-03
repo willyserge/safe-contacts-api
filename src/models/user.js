@@ -5,6 +5,11 @@ import bcrypt from 'bcryptjs';
 dotenv.config();
 
 const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    unique: true,
+    required: true
+  },
   firstname: {
     type: String,
     required: true
@@ -26,16 +31,8 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 6
-  },
-
-  isAdmin: Boolean,
-
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: Date
+    minlength: 8
+  }
 
 });
 

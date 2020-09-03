@@ -6,14 +6,18 @@ import generateToken from '../utils';
 const Auth = {
   async signup(req, res, next) {
     const {
-      firstname, lastname, email, password
+      firstname, lastname, username, email, password
     } = req.body;
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
     if (user) {
-      return res.status(409).send({ error: { message: 'a user with the given email already exists' } });
+      return res.status(409).send({ error: { message: 'email already exists' } });
+    }
+    user = await User.findOne({ username });
+    if (user) {
+      return res.status(409).send({ error: { message: 'username taken' } });
     }
     const newUser = new User({
-      firstname, lastname, email, password
+      firstname, lastname, email, username, password
     });
 
     try {
@@ -22,7 +26,7 @@ const Auth = {
       return res.status(201).json({
         message: 'user created successfully',
         token,
-        user: _.pick(newUser, ['_id', 'firstname', 'email'])
+        user: _.pick(newUser, ['_id', 'firstname', 'email', 'username'])
       });
     } catch (error) {
       return next(new Error(error));
@@ -30,16 +34,16 @@ const Auth = {
   },
 
   async signin(req, res, next) {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) return res.status(401).json({ error: { message: 'invalid email or password' } });
+    const { email, password, username } = req.body;
+    const user = await User.findOne({ email }) || await User.findOne({ username });
+    if (!user) return res.status(401).json({ error: { message: 'invalid credentials' } });
     const isValid = await user.isPasswordValid(password);
-    if (!isValid) return res.status(401).json({ error: { message: 'invalid email or password' } });
+    if (!isValid) return res.status(401).json({ error: { message: 'invalid credentials' } });
     const token = generateToken(user);
     return res.status(200).json({
       message: 'User is successfully logged in',
       token,
-      user: _.pick(user, ['firstname', 'email'])
+      user: _.pick(user, ['firstname', 'email', 'email'])
     });
   }
 };

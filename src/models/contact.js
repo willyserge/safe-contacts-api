@@ -4,20 +4,22 @@ const contactSchema = new mongoose.Schema({
   country_code: {
     type: String, required: true
   },
+  phone_number: {
+    type: String, required: true
+  },
   firstname: {
     type: String,
     required: true
   },
   lastname: {
-    type: String,
-    required: true
+    type: String
   },
   contact_picture: {
-    type: String,
-    required: true
+    type: String
   },
   is_favorite: {
-    type: Boolean
+    type: Boolean,
+    default: false
   },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
   createdAt: { type: Date, default: Date.now }

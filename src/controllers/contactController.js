@@ -62,6 +62,16 @@ const Contacts = {
     } catch (error) {
       next(createError(400, 'contact not found'));
     }
+  },
+
+  async deleteContact(req, res, next) {
+    const { contactId } = req.params;
+    try {
+      await Contact.findByIdAndRemove(contactId);
+      res.status(200).json({ message: 'contact deleted successfully' });
+    } catch (error) {
+      next(createError(400, 'contact not found'));
+    }
   }
 
 };

@@ -10,6 +10,19 @@ const Contacts = {
     } catch (error) {
       next(createError(500));
     }
+  },
+  async createContact(req, res, next) {
+    const newContact = new Contact(req.body);
+    newContact.createdBy = req.user.id;
+    try {
+      const contact = await newContact.save();
+      res.status(201).json({
+        message: 'new contact created successfully',
+        contact
+      });
+    } catch (error) {
+      next(createError(400));
+    }
   }
 };
 

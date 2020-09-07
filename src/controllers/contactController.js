@@ -32,7 +32,20 @@ const Contacts = {
     } catch (error) {
       next(createError(400, 'contact not found'));
     }
+  },
+  async updateContact(req, res, next) {
+    const { contactId } = req.params;
+    try {
+      const note = await Contact.findByIdAndUpdate(contactId, req.body);
+      res.status(200).json({
+        message: 'contact updated successfully',
+        note
+      });
+    } catch (error) {
+      next(createError(400, 'contact not found'));
+    }
   }
+
 };
 
 export default Contacts;

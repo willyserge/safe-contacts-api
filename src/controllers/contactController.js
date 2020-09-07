@@ -23,6 +23,15 @@ const Contacts = {
     } catch (error) {
       next(createError(400));
     }
+  },
+  async getSingleContact(req, res, next) {
+    const { contactId } = req.params;
+    try {
+      const contact = await Contact.findById(contactId);
+      res.status(200).json({ contact });
+    } catch (error) {
+      next(createError(400, 'contact not found'));
+    }
   }
 };
 

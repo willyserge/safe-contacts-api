@@ -6,6 +6,7 @@ import auth from '../middleware/auth';
 const contactsRouter = express.Router();
 contactsRouter.get('/', auth, Contacts.getAllContacts);
 contactsRouter.post('/create', auth, Contacts.createContact);
+contactsRouter.get('/:contactId', auth, Contacts.getSingleContact);
 
 
 export default contactsRouter;

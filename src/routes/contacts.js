@@ -8,6 +8,7 @@ contactsRouter.get('/', auth, Contacts.getAllContacts);
 contactsRouter.post('/create', auth, Contacts.createContact);
 contactsRouter.get('/:contactId', auth, Contacts.getSingleContact);
 contactsRouter.put('/:contactId', auth, Contacts.updateContact);
+contactsRouter.patch('/:contactId', auth, Contacts.partiallyUpdateContact);
 
 
 export default contactsRouter;
